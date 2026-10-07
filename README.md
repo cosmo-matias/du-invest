@@ -1,84 +1,89 @@
-````markdown
 <p align="center">
-  <img src="assets/logo-du-invest.png" alt="Logo Du Invest" width="750">
+  <img src="assets/logo-du-invest.png" alt="Du Invest" width="750">
 </p>
 
 <h1 align="center">Du Invest</h1>
 
 <p align="center">
-  Simulador de investimentos desenvolvido em Microsoft Excel.
+  Simulador de investimentos desenvolvido em Microsoft Excel
+</p>
+
+<p align="center">
+  <a href="./Du_Invest.xlsx"><strong>📥 Baixar a planilha</strong></a>
 </p>
 
 ---
 
 ## 📊 Sobre o projeto
 
-O **Du Invest** é uma ferramenta desenvolvida em Microsoft Excel para simular investimentos mensais, projetar a evolução do patrimônio ao longo do tempo e sugerir a distribuição do aporte entre diferentes tipos de Fundos Imobiliários (FIIs), de acordo com o perfil do investidor.
+O **Du Invest** é uma ferramenta desenvolvida em Microsoft Excel para simular investimentos mensais, projetar a evolução do patrimônio e sugerir a distribuição do aporte entre diferentes categorias de Fundos Imobiliários (FIIs), de acordo com o perfil do investidor.
 
-A ferramenta utiliza funções financeiras, funções de busca, intervalos nomeados, validação de dados e uma tabela auxiliar para tornar a simulação dinâmica e interativa.
+O projeto utiliza recursos como:
 
----
+- função financeira `VF`;
+- função de busca `PROCV`;
+- intervalos nomeados;
+- validação de dados;
+- referências entre planilhas;
+- tabela auxiliar de perfis;
+- cálculos automáticos de distribuição do aporte.
 
-## ❓ Perguntas respondidas pela ferramenta
-
-A área de **Investimento Mensal** responde às principais perguntas da simulação:
-
-### 1. Quanto investir por mês?
-
-O usuário informa o valor que pretende investir mensalmente no campo de aporte.
-
-### 2. Por quantos anos investir?
-
-O período da simulação é definido pelo usuário em anos.
-
-### 3. Qual a taxa de rendimento mensal?
-
-A taxa mensal utilizada na projeção pode ser informada e alterada pelo usuário.
-
-### 4. Qual será o patrimônio acumulado?
-
-A planilha calcula automaticamente o patrimônio estimado ao final do período, considerando o aporte mensal, a taxa de rendimento e o tempo de investimento.
-
-### 5. Quanto esse patrimônio poderá gerar de dividendos mensais?
-
-A ferramenta também estima o rendimento mensal da carteira com base no patrimônio projetado.
-
-Além da simulação principal, a planilha apresenta cenários de evolução do patrimônio para diferentes períodos:
-
-- 2 anos;
-- 5 anos;
-- 10 anos;
-- 20 anos;
-- 30 anos.
+> **Observação:** os valores financeiros disponíveis no arquivo publicado são fictícios e foram utilizados exclusivamente para demonstração.
 
 ---
 
-## 💰 Uso da função VF
+## ❓ O que a ferramenta responde?
 
-A função `VF` é utilizada para calcular o **Valor Futuro** dos aportes mensais.
+A planilha foi construída para responder às principais perguntas de uma simulação de investimentos.
 
-Na simulação principal, a fórmula segue esta lógica:
+| Pergunta | Onde encontrar a resposta |
+|---|---|
+| **Quanto investir por mês?** | No campo de aporte da área **Investimento Mensal** |
+| **Por quantos anos investir?** | No campo de período da simulação |
+| **Qual taxa de rendimento mensal utilizar?** | No campo destinado à taxa mensal |
+| **Qual será o patrimônio acumulado?** | No resultado de patrimônio projetado |
+| **Quanto o patrimônio poderá gerar por mês?** | No cálculo de rendimento mensal da carteira |
+
+Além da projeção principal, a ferramenta apresenta cenários de patrimônio para:
+
+- **2 anos**
+- **5 anos**
+- **10 anos**
+- **20 anos**
+- **30 anos**
+
+---
+
+## 💰 Como a função VF entra nos cálculos?
+
+A função `VF` é utilizada para calcular o **valor futuro dos aportes mensais**.
+
+Na simulação principal, a lógica utilizada é:
 
 ```excel
 =VF(taxa_mensal;qtd_anos*12;aporte*-1)
 ```
 
-O número de anos é multiplicado por `12`, pois os aportes e a taxa de rendimento utilizados na ferramenta são mensais.
+### Como funciona?
 
-O aporte é multiplicado por `-1` porque representa uma saída de caixa. Dessa forma, o Excel apresenta o patrimônio futuro como um valor positivo.
+- `taxa_mensal` representa a rentabilidade mensal utilizada na simulação;
+- `qtd_anos*12` transforma o prazo informado em anos para meses;
+- `aporte` representa o valor investido mensalmente;
+- `aporte*-1` é utilizado porque o aporte representa uma saída de caixa.
 
-A mesma lógica é utilizada nos cenários de 2, 5, 10, 20 e 30 anos.
+O resultado da fórmula é o patrimônio projetado ao final do período.
+
+A mesma lógica é utilizada nos cenários de **2, 5, 10, 20 e 30 anos**.
 
 ---
 
-## 🔎 Uso da função PROCV
+## 🔎 Como o PROCV entra nos cálculos?
 
-A função `PROCV` é utilizada para buscar automaticamente o percentual correspondente a cada tipo de FII de acordo com o perfil selecionado.
+O `PROCV` é utilizado para localizar automaticamente o percentual correspondente a cada categoria de FII de acordo com o perfil selecionado.
 
-A ferramenta combina duas informações:
+A ferramenta combina:
 
-- o perfil do investidor;
-- o tipo de FII.
+**Perfil + Tipo de FII**
 
 Por exemplo:
 
@@ -86,25 +91,39 @@ Por exemplo:
 Conservador-PAPEL
 ```
 
-Essa combinação é utilizada como chave de busca na tabela auxiliar localizada na `Planilha2`.
+Essa combinação funciona como chave de busca na tabela auxiliar da `Planilha2`.
 
-Exemplo de fórmula:
+Exemplo:
 
 ```excel
 =PROCV($C$29&"-"&$B33;Planilha2!$A:$D;4;FALSO)
 ```
 
-Ao alterar o perfil na lista de seleção, o `PROCV` consulta a tabela auxiliar e retorna automaticamente os novos percentuais da carteira.
+Quando o usuário troca o perfil na lista, o `PROCV` consulta a tabela auxiliar e retorna os percentuais correspondentes.
 
-Esses percentuais são utilizados para calcular quanto do aporte mensal será destinado a cada categoria de FII.
+O funcionamento pode ser resumido assim:
+
+```text
+Perfil selecionado
+       ↓
+     PROCV
+       ↓
+Tabela auxiliar
+       ↓
+Percentuais do perfil
+       ↓
+Distribuição do aporte
+```
+
+Dessa forma, não é necessário alterar manualmente os percentuais da carteira.
 
 ---
 
 ## 🏷️ Intervalos nomeados
 
-Para deixar as fórmulas mais legíveis e facilitar a manutenção da ferramenta, foram criados os seguintes intervalos nomeados:
+Para deixar as fórmulas mais legíveis e facilitar a manutenção da planilha, foram criados os seguintes intervalos nomeados:
 
-| Intervalo nomeado | Finalidade |
+| Intervalo | Finalidade |
 |---|---|
 | `salario` | Salário utilizado como referência |
 | `sugestao_investimento` | Valor sugerido para investimento |
@@ -114,215 +133,164 @@ Para deixar as fórmulas mais legíveis e facilitar a manutenção da ferramenta
 | `patrimonio` | Patrimônio futuro projetado |
 | `rendimento_carteira` | Percentual utilizado para estimar o rendimento da carteira |
 
-O uso desses nomes permite escrever fórmulas mais compreensíveis.
-
-Por exemplo:
+Isso permite utilizar fórmulas mais fáceis de compreender, como:
 
 ```excel
 =VF(taxa_mensal;qtd_anos*12;aporte*-1)
 ```
 
-em vez de utilizar apenas referências de células.
+em vez de trabalhar somente com referências de células.
 
 ---
 
 ## 👤 Perfis de investimento
 
-A ferramenta possui três perfis de investimento.
+A ferramenta possui três perfis: **Conservador, Moderado e Agressivo**.
 
-### 🟢 Conservador
+| Tipo de FII | Conservador | Moderado | Agressivo |
+|---|---:|---:|---:|
+| Papel | 30% | 32% | 50% |
+| Tijolo | 50% | 35% | 10% |
+| Híbridos | 10% | 8% | 5% |
+| FOFs | 10% | 5% | 5% |
+| Desenvolvimento | 0% | 10% | 20% |
+| Hotelarias | 0% | 10% | 10% |
+| **Total** | **100%** | **100%** | **100%** |
 
-| Tipo de FII | Percentual |
-|---|---:|
-| Papel | 30% |
-| Tijolo | 50% |
-| Híbridos | 10% |
-| FOFs | 10% |
-| Desenvolvimento | 0% |
-| Hotelarias | 0% |
-| **Total** | **100%** |
+Os percentuais tiveram como referência a estrutura de perfis apresentada na **ferramenta-base do Expert** e foram organizados em uma tabela auxiliar na `Planilha2`.
 
-### 🟡 Moderado
-
-| Tipo de FII | Percentual |
-|---|---:|
-| Papel | 32% |
-| Tijolo | 35% |
-| Híbridos | 8% |
-| FOFs | 5% |
-| Desenvolvimento | 10% |
-| Hotelarias | 10% |
-| **Total** | **100%** |
-
-### 🔴 Agressivo
-
-| Tipo de FII | Percentual |
-|---|---:|
-| Papel | 50% |
-| Tijolo | 10% |
-| Híbridos | 5% |
-| FOFs | 5% |
-| Desenvolvimento | 20% |
-| Hotelarias | 10% |
-| **Total** | **100%** |
-
-Todos os perfis totalizam **100% do aporte mensal**.
-
-Os percentuais utilizados tiveram como referência a estrutura apresentada na ferramenta-base do **Expert** e foram organizados na `Planilha2`, utilizada como tabela auxiliar para as consultas realizadas com `PROCV`.
+Todos os perfis somam exatamente **100% do aporte mensal**.
 
 ---
 
 ## 📈 Distribuição da carteira
 
-Depois que o perfil é escolhido, a ferramenta distribui o aporte mensal entre os diferentes tipos de FIIs.
+Depois que o perfil é selecionado, a planilha aplica os percentuais ao valor que será investido mensalmente.
 
-O cálculo segue a lógica:
+A lógica utilizada é:
 
 ```excel
 =percentual_do_perfil*aporte
 ```
 
-Por exemplo, considerando um aporte de:
+### Exemplo
+
+Se o aporte mensal for:
 
 ```text
 R$ 500,00
 ```
 
-e um percentual de:
+e uma categoria representar:
 
 ```text
 30%
 ```
 
-o valor destinado à categoria será:
+o valor destinado a essa categoria será:
 
 ```text
 R$ 150,00
 ```
 
-A soma de todas as categorias corresponde a **100% do aporte informado**.
+A soma dos valores distribuídos entre todas as categorias corresponde a **100% do aporte mensal**.
 
-A distribuição é alterada automaticamente sempre que o usuário seleciona outro perfil de investimento.
+Ao trocar o perfil, os percentuais e os respectivos valores da carteira são recalculados.
 
 ---
 
 # 🧪 Evidências de funcionamento
 
-Para demonstrar que a ferramenta funciona corretamente, foram realizadas simulações utilizando os **mesmos dados de entrada**, alterando apenas o perfil do investidor.
+Para demonstrar o funcionamento da ferramenta, foi utilizada **a mesma simulação em dois perfis diferentes**.
 
 Foram mantidos os mesmos valores de:
 
 - salário;
 - aporte mensal;
-- quantidade de anos;
+- período de investimento;
 - taxa de rendimento.
 
-Dessa forma, é possível visualizar claramente como a alteração do perfil modifica a distribuição da carteira.
+A única alteração entre os dois testes foi o **perfil de investimento**.
+
+Isso permite verificar visualmente que a mudança do perfil altera a distribuição da carteira.
 
 ---
 
-## 🟢 Simulação — Perfil Conservador
+## 🟢 Perfil Conservador
 
 Na primeira simulação foi selecionado o perfil **Conservador**.
 
-O print abaixo apresenta os dados utilizados na simulação, o perfil selecionado, os percentuais de cada categoria de FII e os respectivos valores da distribuição do aporte.
-
 <p align="center">
-  <img src="prints/perfil-conservador.png"
-       alt="Simulação Du Invest - Perfil Conservador"
-       width="950">
+  <img src="prints/perfilconservador.png" alt="Du Invest - Perfil Conservador" width="950">
 </p>
 
-No perfil **Conservador**, a maior participação da carteira está concentrada em FIIs de **Tijolo** e **Papel**.
+Nesse perfil, a maior parcela do aporte está concentrada principalmente nas categorias de **Tijolo** e **Papel**.
 
-A distribuição total corresponde a **100% do aporte mensal**.
+Os valores da tabela correspondem à distribuição do aporte de acordo com os percentuais do perfil Conservador.
 
 ---
 
-## 🔴 Simulação — Perfil Agressivo
+## 🔴 Perfil Agressivo
 
-Na segunda simulação foram mantidos os mesmos valores utilizados anteriormente.
-
-A única alteração realizada foi a mudança do perfil de **Conservador** para **Agressivo**.
+Na segunda simulação, os mesmos dados foram mantidos e apenas o perfil foi alterado para **Agressivo**.
 
 <p align="center">
-  <img src="prints/perfil-agressivo.png"
-       alt="Simulação Du Invest - Perfil Agressivo"
-       width="950">
+  <img src="prints/perfil-agressivo.png" alt="Du Invest - Perfil Agressivo" width="950">
 </p>
 
-Ao alterar o perfil, os percentuais são atualizados automaticamente através do `PROCV`.
+Ao alterar o perfil, o `PROCV` retorna uma nova combinação de percentuais e, consequentemente, modifica a distribuição do aporte.
 
-Consequentemente, os valores destinados a cada tipo de FII também são recalculados.
-
-A soma da distribuição continua correspondendo a **100% do aporte mensal**.
+Mesmo com uma composição diferente, o total continua correspondendo a **100% do valor investido mensalmente**.
 
 ---
 
-## 🔄 Como ocorre a mudança de perfil
+## 🛠️ O que foi alterado em relação à ferramenta do Expert?
 
-O funcionamento da distribuição pode ser resumido da seguinte forma:
+A ferramenta apresentada pelo Expert foi utilizada como referência para o desenvolvimento do projeto.
 
-```text
-Perfil selecionado
-        ↓
-      PROCV
-        ↓
-  Tabela auxiliar
-        ↓
-Percentuais do perfil
-        ↓
-Distribuição do aporte
-```
+A versão **Du Invest** recebeu diferentes adaptações e personalizações, entre elas:
 
-Dessa forma, o usuário não precisa alterar manualmente os percentuais da carteira.
-
-Basta selecionar outro perfil para que a distribuição seja atualizada.
-
----
-
-## 🛠️ Alterações em relação à ferramenta do Expert
-
-A ferramenta-base apresentada pelo Expert foi utilizada como referência para o desenvolvimento deste projeto.
-
-Nesta versão foram realizadas adaptações e melhorias, entre elas:
-
-- criação da identidade **Du Invest**;
-- desenvolvimento de uma identidade visual própria;
+- criação de uma identidade própria para o projeto;
+- desenvolvimento da marca **Du Invest**;
 - aplicação de uma nova paleta de cores;
-- reorganização das informações;
-- criação de intervalos nomeados;
-- organização da tabela auxiliar dos perfis;
-- utilização do `PROCV` para automatizar a escolha dos percentuais;
+- reorganização visual das informações;
+- criação e utilização de intervalos nomeados;
+- organização da tabela auxiliar de perfis;
+- automação dos percentuais com `PROCV`;
 - distribuição automática do aporte;
-- apresentação de diferentes cenários de patrimônio;
-- melhoria da organização visual dos resultados;
-- personalização da experiência de utilização da ferramenta.
+- apresentação de cenários para diferentes períodos;
+- personalização da área de resultados;
+- melhoria da leitura e organização da ferramenta.
 
-O objetivo foi manter os conceitos apresentados na atividade, mas desenvolver uma versão própria e personalizada da solução.
+O objetivo foi manter os conceitos trabalhados na atividade, mas desenvolver uma versão própria e visualmente personalizada.
 
 ---
 
 ## 🔐 Dados utilizados
 
-Os valores apresentados na versão publicada da ferramenta são **dados fictícios utilizados exclusivamente para demonstração**.
+Todos os valores financeiros presentes na versão publicada são **dados de exemplo**.
 
-Nenhum salário, patrimônio ou outra informação financeira pessoal foi utilizado no arquivo disponibilizado publicamente.
+O arquivo disponível neste repositório não contém:
+
+- salário pessoal;
+- patrimônio pessoal;
+- valores reais de investimentos;
+- outras informações financeiras privadas.
 
 ---
 
 ## ▶️ Como utilizar
 
-1. Faça o download do arquivo `Du_Invest.xlsx`.
+1. Baixe o arquivo [`Du_Invest.xlsx`](./Du_Invest.xlsx).
 2. Abra a planilha no Microsoft Excel.
 3. Informe os dados da simulação.
 4. Defina o aporte mensal.
 5. Informe a quantidade de anos.
 6. Informe a taxa de rendimento mensal.
-7. Escolha o perfil do investidor.
-8. Observe a projeção do patrimônio.
+7. Selecione o perfil de investimento.
+8. Observe o patrimônio projetado.
 9. Analise os cenários apresentados.
-10. Confira a distribuição sugerida do aporte entre os tipos de FIIs.
+10. Confira a distribuição do aporte entre as categorias de FIIs.
 
 ---
 
@@ -346,16 +314,16 @@ du-invest/
 
 ## 💻 Tecnologias e recursos utilizados
 
-- Microsoft Excel;
-- função `VF`;
-- função `PROCV`;
-- intervalos nomeados;
-- validação de dados;
-- referências entre planilhas;
-- tabelas auxiliares;
-- Git;
-- GitHub;
-- Markdown.
+- Microsoft Excel
+- Função `VF`
+- Função `PROCV`
+- Intervalos nomeados
+- Validação de dados
+- Referências entre planilhas
+- Tabelas auxiliares
+- Git
+- GitHub
+- Markdown
 
 ---
 
@@ -363,22 +331,21 @@ du-invest/
 
 O objetivo deste projeto é demonstrar a aplicação prática de recursos do Microsoft Excel na construção de uma ferramenta de simulação financeira.
 
-O projeto permite demonstrar conhecimentos em:
+O projeto evidencia conhecimentos em:
 
 - funções financeiras;
 - funções de busca;
 - organização de dados;
-- lógica de distribuição percentual;
 - referências entre planilhas;
 - intervalos nomeados;
+- lógica de distribuição percentual;
 - validação de dados;
 - construção de ferramentas interativas;
-- documentação técnica;
-- versionamento de projetos com Git e GitHub.
+- documentação de projetos;
+- versionamento com Git e GitHub.
 
 ---
 
 ## 👨‍💻 Autor
 
 Desenvolvido por **Ducosmo**.
-````
